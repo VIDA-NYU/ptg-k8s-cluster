@@ -6,7 +6,7 @@ When you log in for the first time, an HSRN staff member will have to add you to
 
 ## Install the client
 
-You need to download the Kubectl client, and if you want to build new container images, you should also install Docker.
+You need to download the [Kubectl client](https://kubernetes.io/docs/tasks/tools/#kubectl), and if you want to build new container images, you should also install [Docker](https://www.docker.com/get-started/).
 
 ```
 # Install with Homebrew on macOS
@@ -29,6 +29,7 @@ vim config
 # set the KUBECONFIG environment variable to its location
 export KUBECONFIG=<home-directory>/.kube/config
 ```
+For troubleshooting or details, please check the HSRN documentation available [here](https://k8s-docs.hsrn.nyu.edu/)
 ## Get access 
 you can select your namespace by entering the following
 ```
