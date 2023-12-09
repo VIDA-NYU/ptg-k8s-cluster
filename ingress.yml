@@ -29,3 +29,18 @@ spec:
                 name: ptg-k8s-project
                 port:
                   number: 80
+    # You can have multiple rules in one Ingress, or create multiple Ingresses
+    - host: argus-api.hsrn.nyu.edu
+      # You are welcome to take advantage of our *.hsrn.nyu.edu domain, or you
+      # can use your own. In that case, you might have to provide a certificate
+      # to enable HTTPS
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ptg-api
+                port:
+                  number: 80
+
