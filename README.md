@@ -4,6 +4,8 @@
 
 When you log in for the first time, an HSRN staff member will have to add you to a Kubernetes namespace. Email hsrn-support@nyu.edu with your netID and the name you want for your namespace.
 
+Before sending the email, follow the instructions to login and register with the HSRN system. They cannot add you until this step is done. Instructions here: https://k8s-docs.hsrn.nyu.edu/get-started/
+
 ## Install the client
 
 You need to download the [Kubectl client](https://kubernetes.io/docs/tasks/tools/#kubectl), and if you want to build new container images, you should also install [Docker](https://www.docker.com/get-started/).
