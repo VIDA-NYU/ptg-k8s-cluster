@@ -79,3 +79,41 @@ You can access the Kubernetes Dashboard [here](https://k8s-dashboard.hsrn.nyu.ed
 
 <img width="1437" alt="kubernetesdashboard_select_ptgproject" src="https://github.com/VIDA-NYU/ptg-k8s-cluster/assets/11592889/86f78ae3-afaa-4e89-bcaa-1333faf24439">
 
+
+
+## Deploying Directus
+Install helm
+```bash
+brew install helm
+```
+Add general use credentials
+```bash
+cat <<EOF > .secret-credentials
+ADMIN_EMAIL=admin@admin.com
+ADMIN_USER=my-secret-user
+ADMIN_PASS=my-secret-password
+DIRECTUS_SECRET=asdfasdfasdfasdfafqfweqfqefaasdfadv
+DIRECTUS_KEY=OIBOIBoibIUBIUBIUBUIBIUBUIBIUBIUBKJBKJGU
+EOF
+kubectl create secret generic credentials --from-env-file=.secret-credentials --namespace ptgproject
+```
+
+
+Add directus secrets
+```bash
+cat <<EOF > .secret-directus
+DIRECTUS_SECRET=asdfasdfasdfasdfafqfweqfqefaasdfadv
+DIRECTUS_KEY=OIBOIBoibIUBIUBIUBUIBIUBUIBIUBIUBKJBKJGU
+EOF
+kubectl create secret generic credentials --from-env-file=.secret-directus --namespace ptgproject
+
+```bash
+#https://github.com/directus-community/helm-chart/blob/master/charts/directus/README.md
+helm repo add directus https://directus-community.github.io/helm-chart/
+helm repo update
+helm install directus  directus/directus -f values/directus.values.yaml --namespace ptgproject
+```
+### Uninstall 
+```bash
+helm uninstall directus --namespace ptgproject
+```

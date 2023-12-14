@@ -1,0 +1,56 @@
+ingress:
+  enabled: true
+  annotations: # {}
+    # Use the HAProxy ingress controller (currently the only option)
+    kubernetes.io/ingress.class: haproxy
+    # Instruct HAProxy to redirect HTTP to HTTPS, with the 301 "permanent" code
+    haproxy.org/ssl-redirect: "true"
+    haproxy.org/ssl-redirect-code: "301"
+    # Instruct HAProxy to provide the end-user's address in the 'X-Forwarded-For' header
+    haproxy.org/forwarded-for: "true"
+  hosts:
+    # You can have multiple rules in one Ingress, or create multiple Ingresses
+    - host: ptg-directus.hsrn.nyu.edu
+      # You are welcome to take advantage of our *.hsrn.nyu.edu domain, or you
+      # can use your own. In that case, you might have to provide a certificate
+      # to enable HTTPS
+      paths:
+        - path: /
+          pathType: Prefix
+
+# FIXME
+# key: 2a639401-8c09-44bb-a8cc-b5fb6960b41a
+# secret: d74e1a7d-aca3-49d1-b60e-03f58f850212
+extraEnvVars: #{}
+  - name: KEY
+    value: "2a639401-8c09-44bb-a8cc-b5fb6960b41a"
+  - name: SECRET
+    value: "d74e1a7d-aca3-49d1-b60e-03f58f850212"
+  - name: CORS_ENABLED
+    value: "true"
+  - name: CORS_ORIGIN
+    value: "true"
+  - name: WEBSOCKETS_ENABLED
+    value: 'true'
+
+  # admin credentials
+  - name: ADMIN_EMAIL
+    valueFrom:
+      secretKeyRef:
+        name: credentials
+        key: ADMIN_EMAIL
+  - name: ADMIN_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: credentials
+        key: ADMIN_PASS
+
+# cache:
+#   enabled: true
+
+# mariadb:
+#   enabled: true
+# #
+# ### In order to do multi-container deployment, redis is required
+# redis:
+#   enabled: true
