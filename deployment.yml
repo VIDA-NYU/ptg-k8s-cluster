@@ -40,6 +40,7 @@ spec:
             - name: web
               # containerPort: 5000
               containerPort: 80
+          imagePullPolicy: Always
           # resources:
           #   requests:
           #     cpu: 10m # Request very little CPU
@@ -62,6 +63,7 @@ spec:
             # This section indicates where to mount the Pod's volumes
             - name: persistent-data
               mountPath: /data/recordings
+          imagePullPolicy: Always
           # resources:
           #   requests:
           #     cpu: 10m # Request very little CPU
@@ -77,6 +79,7 @@ spec:
           env:
             - name: ALLOW_EMPTY_PASSWORD
               value: 'yes'
+          imagePullPolicy: Always
           # resources:
           #   requests:
           #     cpu: 10m # Request very little CPU
@@ -94,6 +97,7 @@ spec:
               value: admin
             - name: MONGODB_INITDB_ROOT_PASSWORD
               value: admin
+          imagePullPolicy: Always
           # resources:
           #   requests:
           #     cpu: 10m # Request very little CPU
