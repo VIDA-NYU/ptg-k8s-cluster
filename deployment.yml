@@ -24,11 +24,17 @@ spec:
       labels:
         app: ptg-k8s-project
     spec:
+      volumes:
+      # This section describes the Pod's volumes
+      # Those volumes can be mounted by containers, below
+      - name: persistent-data
+        persistentVolumeClaim:
+          claimName: data-volume
       containers:
         # Here's our Flask container
         - name: argus-rt
           # image: ttl.sh/hsrn-flask-clock
-          image: ghcr.io/vida-nyu/tim-dashboard:demo-november-2023
+          image: ghcr.io/vida-nyu/tim-dashboard:demo-november-2023-apiurl
           ports:
             # This is the port we'll expose to the internet eventually
             - name: web
@@ -52,6 +58,10 @@ spec:
               value: redis://localhost:6379
             - name: MONGO_URL
               value: mongodb://localhost:27017
+          volumeMounts:
+            # This section indicates where to mount the Pod's volumes
+            - name: persistent-data
+              mountPath: /data/recordings
           # resources:
           #   requests:
           #     cpu: 10m # Request very little CPU
