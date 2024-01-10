@@ -49,7 +49,10 @@ spec:
           #     cpu: 100m # Throttle the container if using more CPU
           #     memory: 100Mi # Terminate the container if using more memory
         - name: api
-          image: ghcr.io/vida-nyu/ptg-api-server:main
+          image: scastelo/my_apiserver_image:firsttry
+          # image: ghcr.io/vida-nyu/ptg-api-server:main
+          command: [ "python" ]
+          args: [ "-m", "gunicorn", "main:app", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "-b", "0.0.0.0:8000" ]
           ports:
             # This is the port we'll expose to the internet eventually
             - name: web
@@ -128,3 +131,5 @@ spec:
         #   #   limits:
         #   #     cpu: 100m # Throttle the container if using more CPU
         #   #     memory: 100Mi # Terminate the container if using more memory
+      imagePullSecrets:
+        - name: regcred
