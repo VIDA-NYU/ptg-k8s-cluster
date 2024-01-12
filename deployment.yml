@@ -24,6 +24,17 @@ spec:
       labels:
         app: ptg-k8s-project
     spec:
+      # affinity:
+      #   nodeAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #       nodeSelectorTerms:
+      #         - matchExpressions:
+      #           - key: nvidia.com/gpu.product
+      #             operator: In
+      #             values:
+      #               # One of those GPUs
+      #               - "NVIDIA-A100-80GB-PCIe"
+      #               - "Quadro-RTX-8000"
       volumes:
       # This section describes the Pod's volumes
       # Those volumes can be mounted by containers, below
@@ -131,5 +142,38 @@ spec:
         #   #   limits:
         #   #     cpu: 100m # Throttle the container if using more CPU
         #   #     memory: 100Mi # Terminate the container if using more memory
+        - name: perception
+          image: ghcr.io/vida-nyu/ptg-server-ml-perception:main
+          command: [ "python" ]
+          args: ["main_states.py", "run"]
+          ports:
+            # This is the port we'll expose to the internet eventually
+            - name: web
+              containerPort: 8265
+          env:
+            - name: PYTHONUNBUFFERED
+              value: "1"
+          volumeMounts:
+            # This section indicates where to mount the Pod's volumes
+            - name: persistent-data
+              mountPath: dev/shm
+            - name: persistent-data
+              mountPath: /src/app/models
+              # subPath: /data/models
+            - name: persistent-data
+              mountPath: /root/.cache
+              # subPath: /data/models/cache
+            - name: persistent-data
+              mountPath: /root/.torch/iopath_cache
+              # subPath: /data/models/torch_iocache
+
+          imagePullPolicy: Always
+          resources:
+              limits:
+                nvidia.com/gpu: 1 # Request 1 NVIDIA GPU
+      tolerations:
+        - key: nvidia.com/gpu
+          operator: Exists
+          effect: NoSchedule
       imagePullSecrets:
         - name: regcred
