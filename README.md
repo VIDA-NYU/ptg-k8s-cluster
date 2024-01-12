@@ -79,3 +79,28 @@ You can access the Kubernetes Dashboard [here](https://k8s-dashboard.hsrn.nyu.ed
 
 <img width="1437" alt="kubernetesdashboard_select_ptgproject" src="https://github.com/VIDA-NYU/ptg-k8s-cluster/assets/11592889/86f78ae3-afaa-4e89-bcaa-1333faf24439">
 
+# Using ptgctl to replay recordings
+ptgctl is a Python Library and Command Line tool for interacting with the PTG API and data streams. Installation details are available [here](https://github.com/VIDA-NYU/ptgctl/tree/main?tab=readme-ov-file#install). After ptgctl is installed, run the following code:
+
+```bash
+# upgrading ptgctl
+ptgctl upgrade
+# url to another machine
+ptgctl login --url https://argus-api.hsrn.nyu.edu
+```
+
+To replay a mock video
+```bash
+ptgctl mock video <path/to/video.mp4>
+```
+
+To replay a video that is stored in the cluster
+```bash
+# list available recordings
+ptgctl recordings ls
+# example: replay recording 2023.11.01-18.08.15 
+ptgctl recordings replay 2023.11.01-18.08.15  main+depthlt
+```
+
+
+
