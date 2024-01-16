@@ -41,6 +41,9 @@ spec:
       - name: persistent-data
         persistentVolumeClaim:
           claimName: data-volume
+      - name: shm
+        emptyDir:
+          medium: Memory
       containers:
         # Here's our Flask container
         - name: argus-rt
@@ -155,17 +158,30 @@ spec:
               value: "1"
           volumeMounts:
             # This section indicates where to mount the Pod's volumes
+            - name: shm
+              mountPath: /dev/shm
             - name: persistent-data
-              mountPath: dev/shm
-            - name: persistent-data
+              subPath: models
               mountPath: /src/app/models
-              # subPath: /data/models
             - name: persistent-data
+              subPath: models/cache
               mountPath: /root/.cache
-              # subPath: /data/models/cache
             - name: persistent-data
+              subPath: models/torch_iocache
               mountPath: /root/.torch/iopath_cache
-              # subPath: /data/models/torch_iocache
+          # volumeMounts:
+          #   # This section indicates where to mount the Pod's volumes
+          #   - name: persistent-data
+          #     mountPath: dev/shm
+          #   - name: persistent-data
+          #     mountPath: /src/app/models
+          #     # subPath: /data/models
+          #   - name: persistent-data
+          #     mountPath: /root/.cache
+          #     # subPath: /data/models/cache
+          #   - name: persistent-data
+          #     mountPath: /root/.torch/iopath_cache
+          #     # subPath: /data/models/torch_iocache
           imagePullPolicy: Always
           resources:
               limits:
@@ -177,14 +193,25 @@ spec:
           volumeMounts:
             # This section indicates where to mount the Pod's volumes
             - name: persistent-data
+              subPath: /models/reasoning
               mountPath: /src/app/models
-              # subPath: /data//models/reasoning
             - name: persistent-data
+              subPath: /models/reasoning/nltk
               mountPath: /usr/share/nltk_data
-              # subPath: /data/models/reasoning/nltk
             - name: persistent-data
+              subPath: /models/reasoning/spacy
               mountPath: /opt/conda/lib/python3.8/site-packages/en_core_web_lg
-              # subPath: /data/models/reasoning/spacy
+          # volumeMounts:
+          #   # This section indicates where to mount the Pod's volumes
+          #   - name: persistent-data
+          #     mountPath: /src/app/models
+          #     # subPath: /data//models/reasoning
+          #   - name: persistent-data
+          #     mountPath: /usr/share/nltk_data
+          #     # subPath: /data/models/reasoning/nltk
+          #   - name: persistent-data
+          #     mountPath: /opt/conda/lib/python3.8/site-packages/en_core_web_lg
+          #     # subPath: /data/models/reasoning/spacy
         - name: memory
           image: ghcr.io/vida-nyu/ptg-server-ml-3d-memory:main
           command: [ "python" ]
