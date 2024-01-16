@@ -166,11 +166,35 @@ spec:
             - name: persistent-data
               mountPath: /root/.torch/iopath_cache
               # subPath: /data/models/torch_iocache
-
           imagePullPolicy: Always
           resources:
               limits:
                 nvidia.com/gpu: 1 # Request 1 NVIDIA GPU
+        - name: reasoning
+          image: ghcr.io/vida-nyu/ptg-server-ml-reasoning:main
+          # command: [ "python" ]
+          # args: ["main_states.py", "run"]
+          volumeMounts:
+            # This section indicates where to mount the Pod's volumes
+            - name: persistent-data
+              mountPath: /src/app/models
+              # subPath: /data//models/reasoning
+            - name: persistent-data
+              mountPath: /usr/share/nltk_data
+              # subPath: /data/models/reasoning/nltk
+            - name: persistent-data
+              mountPath: /opt/conda/lib/python3.8/site-packages/en_core_web_lg
+              # subPath: /data/models/reasoning/spacy
+        - name: memory
+          image: ghcr.io/vida-nyu/ptg-server-ml-3d-memory:main
+          command: [ "python" ]
+          args: [main.py mem run]
+          imagePullPolicy: Always
+        - name: 3d-memory-sync
+          image: ghcr.io/vida-nyu/ptg-server-ml-3d-memory:main
+          command: [ "python" ]
+          args: [main.py sync run]
+          imagePullPolicy: Always
       tolerations:
         - key: nvidia.com/gpu
           operator: Exists
