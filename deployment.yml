@@ -173,19 +173,6 @@ spec:
             - name: persistent-data
               subPath: models/torch_iocache
               mountPath: /root/.torch/iopath_cache
-          # volumeMounts:
-          #   # This section indicates where to mount the Pod's volumes
-          #   - name: persistent-data
-          #     mountPath: dev/shm
-          #   - name: persistent-data
-          #     mountPath: /src/app/models
-          #     # subPath: /data/models
-          #   - name: persistent-data
-          #     mountPath: /root/.cache
-          #     # subPath: /data/models/cache
-          #   - name: persistent-data
-          #     mountPath: /root/.torch/iopath_cache
-          #     # subPath: /data/models/torch_iocache
           imagePullPolicy: Always
           resources:
               limits:
@@ -194,6 +181,9 @@ spec:
           image: ghcr.io/vida-nyu/ptg-server-ml-reasoning:main
           # command: [ "python" ]
           # args: ["main_states.py", "run"]
+          env:
+            - name: PTG_URL
+              value: "http://127.0.0.1:8000"
           volumeMounts:
             # This section indicates where to mount the Pod's volumes
             - name: persistent-data
