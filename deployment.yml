@@ -10,10 +10,10 @@ spec:
   replicas: 1
   # Perform rolling updates, starting containers before stopping the old ones
   strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
+    type: Recreate
+    # rollingUpdate:
+    #   maxSurge: 1
+    #   maxUnavailable: 0
   selector:
     matchLabels:
       # This is how the Deployment recognizes its Pods, has to match the labels
@@ -156,6 +156,10 @@ spec:
           env:
             - name: PYTHONUNBUFFERED
               value: "1"
+            - name: PTG_URL
+              value: "http://127.0.0.1:8000"
+            - name: MODEL_DIR
+              value: "/src/app/models"
           volumeMounts:
             # This section indicates where to mount the Pod's volumes
             - name: shm
