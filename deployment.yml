@@ -36,14 +36,14 @@ spec:
       #               - "NVIDIA-A100-80GB-PCIe"
       #               - "Quadro-RTX-8000"
       volumes:
-      # This section describes the Pod's volumes
-      # Those volumes can be mounted by containers, below
-      - name: persistent-data
-        persistentVolumeClaim:
-          claimName: data-volume
-      - name: shm
-        emptyDir:
-          medium: Memory
+        # This section describes the Pod's volumes
+        # Those volumes can be mounted by containers, below
+        - name: persistent-data
+          persistentVolumeClaim:
+            claimName: data-volume
+        - name: shm
+          emptyDir:
+            medium: Memory
       containers:
         # Here's our Flask container
         - name: argus-rt
