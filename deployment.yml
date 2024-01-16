@@ -193,13 +193,13 @@ spec:
           volumeMounts:
             # This section indicates where to mount the Pod's volumes
             - name: persistent-data
-              subPath: /models/reasoning
+              subPath: models/reasoning
               mountPath: /src/app/models
             - name: persistent-data
-              subPath: /models/reasoning/nltk
+              subPath: models/reasoning/nltk
               mountPath: /usr/share/nltk_data
             - name: persistent-data
-              subPath: /models/reasoning/spacy
+              subPath: models/reasoning/spacy
               mountPath: /opt/conda/lib/python3.8/site-packages/en_core_web_lg
           # volumeMounts:
           #   # This section indicates where to mount the Pod's volumes
