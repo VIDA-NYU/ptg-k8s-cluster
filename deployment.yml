@@ -216,6 +216,85 @@ spec:
             - name: PTG_URL
               value: "http://127.0.0.1:8000"
           imagePullPolicy: Always
+
+        # recorders
+        - name: raw-recorder
+          image: ghcr.io/vida-nyu/ptg-server-ml-record:main
+          command: [ "python" ]
+          args: ["-m", "ptgprocess.processors.record", "raw", "run", "--continuous"]
+          env:
+            - name: PTG_URL
+              value: "http://127.0.0.1:8000"
+          volumeMounts:
+            # This section indicates where to mount the Pod's volumes
+            - name: persistent-data
+              subPath: data/recordings/raw
+              mountPath: /src/app/recordings
+          imagePullPolicy: Always
+        - name: video-recorder
+          image: ghcr.io/vida-nyu/ptg-server-ml-record:main
+          command: [ "python" ]
+          args: ["-m", "ptgprocess.processors.record", "video", "run", "--continuous"]
+          env:
+            - name: PTG_URL
+              value: "http://127.0.0.1:8000"
+          volumeMounts:
+            # This section indicates where to mount the Pod's volumes
+            - name: persistent-data
+              subPath: data/recordings/post
+              mountPath: /src/app/recordings
+            - name: persistent-data
+              subPath: data/recordings/raw
+              mountPath: /src/app/raw
+          imagePullPolicy: Always
+        - name: audio-recorder
+          image: ghcr.io/vida-nyu/ptg-server-ml-record:main
+          command: [ "python" ]
+          args: ["-m", "ptgprocess.processors.record", "audio", "run", "--continuous"]
+          env:
+            - name: PTG_URL
+              value: "http://127.0.0.1:8000"
+          volumeMounts:
+            # This section indicates where to mount the Pod's volumes
+            - name: persistent-data
+              subPath: data/recordings/post
+              mountPath: /src/app/recordings
+            - name: persistent-data
+              subPath: data/recordings/raw
+              mountPath: /src/app/raw
+          imagePullPolicy: Always
+        - name: json-recorder
+          image: ghcr.io/vida-nyu/ptg-server-ml-record:main
+          command: [ "python" ]
+          args: ["-m", "ptgprocess.processors.record", "json", "run", "--continuous"]
+          env:
+            - name: PTG_URL
+              value: "http://127.0.0.1:8000"
+          volumeMounts:
+            # This section indicates where to mount the Pod's volumes
+            - name: persistent-data
+              subPath: data/recordings/post
+              mountPath: /src/app/recordings
+            - name: persistent-data
+              subPath: data/recordings/raw
+              mountPath: /src/app/raw
+          imagePullPolicy: Always
+        - name: pointcloud-recorder
+          image: ghcr.io/vida-nyu/ptg-server-ml-record:main
+          command: [ "python" ]
+          args: ["-m", "ptgprocess.processors.record", "pointcloud", "run", "--continuous"]
+          env:
+            - name: PTG_URL
+              value: "http://127.0.0.1:8000"
+          volumeMounts:
+            # This section indicates where to mount the Pod's volumes
+            - name: persistent-data
+              subPath: data/recordings/post
+              mountPath: /src/app/recordings
+            - name: persistent-data
+              subPath: data/recordings/raw
+              mountPath: /src/app/raw
+          imagePullPolicy: Always
       tolerations:
         - key: nvidia.com/gpu
           operator: Exists
