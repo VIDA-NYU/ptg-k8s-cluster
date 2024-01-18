@@ -173,10 +173,10 @@ spec:
             - name: persistent-data
               subPath: models/torch_iocache
               mountPath: /root/.torch/iopath_cache
-          imagePullPolicy: Always
           resources:
               limits:
                 nvidia.com/gpu: 1 # Request 1 NVIDIA GPU
+          imagePullPolicy: Always
         - name: reasoning
           image: ghcr.io/vida-nyu/ptg-server-ml-reasoning:main
           command: [ "python" ]
@@ -228,7 +228,8 @@ spec:
           volumeMounts:
             # This section indicates where to mount the Pod's volumes
             - name: persistent-data
-              subPath: data/recordings/raw
+              # subPath: data/recordings/raw
+              subPath: raw
               mountPath: /src/app/recordings
           imagePullPolicy: Always
         - name: video-recorder
@@ -241,10 +242,12 @@ spec:
           volumeMounts:
             # This section indicates where to mount the Pod's volumes
             - name: persistent-data
-              subPath: data/recordings/post
+              # subPath: data/recordings/post
+              subPath: post
               mountPath: /src/app/recordings
             - name: persistent-data
-              subPath: data/recordings/raw
+              # subPath: data/recordings/raw
+              subPath: raw
               mountPath: /src/app/raw
           imagePullPolicy: Always
         - name: audio-recorder
@@ -257,10 +260,12 @@ spec:
           volumeMounts:
             # This section indicates where to mount the Pod's volumes
             - name: persistent-data
-              subPath: data/recordings/post
+              # subPath: data/recordings/post
+              subPath: post
               mountPath: /src/app/recordings
             - name: persistent-data
-              subPath: data/recordings/raw
+              # subPath: data/recordings/raw
+              subPath: raw
               mountPath: /src/app/raw
           imagePullPolicy: Always
         - name: json-recorder
@@ -273,10 +278,12 @@ spec:
           volumeMounts:
             # This section indicates where to mount the Pod's volumes
             - name: persistent-data
-              subPath: data/recordings/post
+              # subPath: data/recordings/post
+              subPath: post
               mountPath: /src/app/recordings
             - name: persistent-data
-              subPath: data/recordings/raw
+              # subPath: data/recordings/raw
+              subPath: raw
               mountPath: /src/app/raw
           imagePullPolicy: Always
         - name: pointcloud-recorder
@@ -289,10 +296,12 @@ spec:
           volumeMounts:
             # This section indicates where to mount the Pod's volumes
             - name: persistent-data
-              subPath: data/recordings/post
+              # subPath: data/recordings/post
+              subPath: post
               mountPath: /src/app/recordings
             - name: persistent-data
-              subPath: data/recordings/raw
+              # subPath: data/recordings/raw
+              subPath: raw
               mountPath: /src/app/raw
           imagePullPolicy: Always
       tolerations:
