@@ -200,6 +200,14 @@ spec:
               mountPath: /home/ptg/src/storage/logs/
 
           imagePullPolicy: Always
+        - name: in3d
+          image: ghcr.io/vida-nyu/ptg-server-ml-in3d:main
+          command: [ "python" ]
+          args: ["main.py", "run"]
+          env:
+            - name: PTG_URL
+              value: "http://127.0.0.1:8000"
+          imagePullPolicy: Always
         - name: memory
           image: ghcr.io/vida-nyu/ptg-server-ml-3d-memory:main
           command: [ "python" ]
