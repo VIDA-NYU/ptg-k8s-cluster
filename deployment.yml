@@ -55,7 +55,16 @@ spec:
               # containerPort: 5000
               containerPort: 80
           imagePullPolicy: Always
-          # resources:
+        # - name: argus-2
+        #   # image: ttl.sh/hsrn-flask-clock
+        #   image: ghcr.io/vida-nyu/argus2:main
+        #   ports:
+        #     # This is the port we'll expose to the internet eventually
+        #     - name: web
+        #       # containerPort: 5000
+        #       containerPort: 3000
+          imagePullPolicy: Always
+          resources:
           #   requests:
           #     cpu: 10m # Request very little CPU
           #     memory: 100Mi # Request that this memory be allocated to us
