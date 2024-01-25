@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argus2-ptg-k8s-project
+  labels:
+    app: argus2-ptg-k8s-project
+    source: argus2-hsrn
+spec:
+  # Run two copies of the Pod
+  replicas: 1
+  # Perform rolling updates, starting containers before stopping the old ones
+  strategy:
+    type: Recreate
+    # rollingUpdate:
+    #   maxSurge: 1
+    #   maxUnavailable: 0
+  selector:
+    matchLabels:
+      # This is how the Deployment recognizes its Pods, has to match the labels
+      # of the Pod template
+      app: argus2-ptg-k8s-project
+  template:
+    metadata:
+      labels:
+        app: argus2-ptg-k8s-project
+    spec:
+      volumes:
+        # This section describes the Pod's volumes
+        # Those volumes can be mounted by containers, below
+        - name: persistent-data
+          persistentVolumeClaim:
+            claimName: data-volume
+        - name: shm
+          emptyDir:
+            medium: Memory
+      containers:
+        # Here's our Argus2 container
+        - name: argus-2
+          # image: ttl.sh/hsrn-flask-clock
+          image: ghcr.io/vida-nyu/argus2:main
+          ports:
+            # This is the port we'll expose to the internet eventually
+            - name: web
+              # containerPort: 5000
+              containerPort: 80
+          imagePullPolicy: Always
+          resources:
+          #   requests:
+          #     cpu: 10m # Request very little CPU
+          #     memory: 100Mi # Request that this memory be allocated to us
+          #   limits:
+          #     cpu: 100m # Throttle the container if using more CPU
+          #     memory: 100Mi # Terminate the container if using more memory
+      imagePullSecrets:
+        - name: regcred
+
