@@ -37,7 +37,11 @@ spec:
         # Here's our Argus2 container
         - name: argus-2
           # image: ttl.sh/hsrn-flask-clock
-          image: ghcr.io/vida-nyu/argus2:main
+          # image: ghcr.io/vida-nyu/argus2:main
+          image: ghcr.io/vida-nyu/argus2-setupip:setup-server-ip
+          # env:
+          #   - name: PTG_URL
+          #     value: "http://argus-api.hsrn.nyu.edu"
           ports:
             # This is the port we'll expose to the internet eventually
             - name: web
