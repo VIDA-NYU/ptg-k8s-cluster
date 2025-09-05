@@ -14,6 +14,31 @@ You need to download the [Kubectl client](https://kubernetes.io/docs/tasks/tools
 # Install with Homebrew on macOS
 brew install kubectl
 ```
+<details>
+  <summary>kubelogin installation (v1.34.1) on macOS</summary>
+  
+Additionally, it is necessary to [download kubelogin](https://github.com/int128/kubelogin/releases/tag/v1.34.1), a plugin facilitating SSO authentication. Ensure the binary is placed in the PATH as ``kubectl-oidc_login``.
+```
+# 1. Download the release archive for macOS from GitHub:
+#    kubelogin_darwin_amd64.zip (Intel) or kubelogin_darwin_arm64.zip (Apple Silicon)
+
+# 2. Unzip the release archive
+unzip kubelogin_darwin_amd64.zip -d ~/Downloads/kubelogin-darwin-amd64
+cd ~/Downloads/kubelogin-darwin-amd64
+
+# 3. Move binary to PATH as kubectl-oidc_login
+sudo mv kubelogin /usr/local/bin/kubectl-oidc_login
+
+# 4. Make it executable
+sudo chmod +x /usr/local/bin/kubectl-oidc_login
+
+# 5. Remove macOS quarantine attribute (Gatekeeper restriction)
+sudo xattr -r -d com.apple.quarantine /usr/local/bin/kubectl-oidc_login
+
+# 6. Verify installation
+kubectl-oidc_login --version
+```
+</details>
 
 Go to https://config.hsrn.nyu.edu/ and click on "get your config". You will be asked to log in using one of a long list of providers. Please select "New York University" if you have an NYU netID.
 
