@@ -29,6 +29,8 @@ cd .kube/
 # use ``wq`` to save and exit vim
 vim config
 # set the KUBECONFIG environment variable to its location
+# Check variable
+echo $KUBECONFIG
 export KUBECONFIG=<home-directory>/.kube/config
 ```
 For troubleshooting or details, please check the HSRN documentation available [here](https://k8s-docs.hsrn.nyu.edu/)
@@ -37,7 +39,12 @@ you can select your namespace by entering the following
 ```
 kubectl config set-context --current --namespace ptgproject
 ```
-Check your access by doing:
+Verify in which namespace you are:
+```
+kubectl config view --minify | grep namespace:
+```
+
+Checks whether the current Kubernetes context has permission to create pods in the active namespace.
 ```
 kubectl auth can-i create pods
 ```
